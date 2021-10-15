@@ -10,11 +10,12 @@ from ..builder import LOSSES
 
 @LOSSES.register_module()
 class OrthogonalProjectionLoss(nn.Module):
-    def __init__(self, gamma=0.5,):
+    def __init__(self, gamma=0.5, loss_weight=1.0):
         super().__init__()
         self.gamma = gamma
+        self.loss_weight = loss_weight
         logger = get_root_logger()
-        logger.info(f"Using feat loss")
+        logger.info(f"Using opl loss")
 
     def forward(self,
                 features,
@@ -39,5 +40,5 @@ class OrthogonalProjectionLoss(nn.Module):
 
         loss = (1.0 - pos_pairs_mean) + self.gamma * neg_pairs_mean
 
-        return loss
+        return self.loss_weight * loss
 

@@ -350,7 +350,7 @@ class Shared2FCCBBoxHeadBT(ConvFCBBoxHead):
                 losses['loss_bbox'] = bbox_pred.sum() * 0
 
         if feats is not None:
-            losses['loss_opl'] = self.loss_opl(feats)
+            losses['loss_opl'] = self.loss_opl(feats, labels)
         return losses
 
 
