@@ -119,6 +119,11 @@ def main():
     print(f"loaded checkpoint from {args.checkpoint}")
     if args.fuse_conv_bn:
         model = fuse_module(model)
+
+    kwargs = {} if args.options is None else args.options
+    kwargs['max_dets'] = cfg.test_cfg.rcnn.max_per_img
+    print(kwargs)
+
     # old versions did not save class info in checkpoints, this walkaround is
     # for backward compatibility
     if 'CLASSES' in checkpoint['meta']:
@@ -143,7 +148,7 @@ def main():
         if args.out:
             print(f'\nwriting results to {args.out}')
             mmcv.dump(outputs, args.out)
-        kwargs = {} if args.options is None else args.options
+        # kwargs = {} if args.options is None else args.options
         if args.format_only:
             dataset.format_results(outputs, **kwargs)
         if args.eval:

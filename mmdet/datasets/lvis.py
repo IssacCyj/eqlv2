@@ -306,7 +306,8 @@ class LVISV05Dataset(CocoDataset):
                  jsonfile_prefix=None,
                  classwise=False,
                  proposal_nums=(100, 300, 1000),
-                 iou_thrs=np.arange(0.5, 0.96, 0.05)):
+                 iou_thrs=np.arange(0.5, 0.96, 0.05),
+                 max_dets=300):
         """Evaluation in LVIS protocol.
 
         Args:
@@ -327,6 +328,7 @@ class LVISV05Dataset(CocoDataset):
         Returns:
             dict[str, float]: LVIS style metrics.
         """
+        print(f'Max detections per image: {max_dets}')
 
         try:
             from lvis import LVISResults, LVISEval
@@ -374,7 +376,7 @@ class LVISV05Dataset(CocoDataset):
             if metric not in result_files:
                 raise KeyError('{} is not in results'.format(metric))
             try:
-                lvis_dt = LVISResults(lvis_gt, result_files[metric])
+                lvis_dt = LVISResults(lvis_gt, result_files[metric], max_dets=max_dets)
             except IndexError:
                 print_log(
                     'The testing results of the whole dataset is empty.',
