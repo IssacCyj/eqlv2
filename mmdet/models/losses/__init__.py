@@ -17,6 +17,7 @@ from .eql import EQL
 from .group_softmax import GroupSoftmax
 from .eqlv2 import EQLv2
 from .orthogonal_projection_loss import OrthogonalProjectionLoss
+from .bt_loss import BarlowTwinLoss
 
 __all__ = [
     'accuracy', 'Accuracy', 'cross_entropy', 'binary_cross_entropy',
@@ -27,5 +28,5 @@ __all__ = [
     'GHMR', 'reduce_loss', 'weight_reduce_loss', 'weighted_loss', 'L1Loss',
     'l1_loss', 'isr_p', 'carl_loss', 'AssociativeEmbeddingLoss',
     'GaussianFocalLoss', 'QualityFocalLoss', 'DistributionFocalLoss', 'EQL', 'GroupSoftmax',
-    'EQLv2', 'OrthogonalProjectionLoss'
+    'EQLv2', 'OrthogonalProjectionLoss', 'BarlowTwinLoss'
 ]

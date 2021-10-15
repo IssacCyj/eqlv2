@@ -1,6 +1,13 @@
 _base_ = ['./mask_rcnn_r50_8x2_1x.py']
 
-model = dict(roi_head=dict(type='BTRoIHead', bbox_head=dict(type='Shared2FCCBBoxHeadBT', loss_cls=dict(type="EQLv2"), )))
+model = dict(roi_head=dict(type='BTRoIHead',
+                           bbox_head=dict(type='Shared2FCCBBoxHeadBT',
+                                          loss_cls=dict(type="EQLv2"),
+                                          loss_opl=dict(
+                                              type='OrthogonalProjectionLoss', loss_weight=0.0),
+                                          loss_bt=dict(
+                                              type='BarlowTwinLoss', loss_weight=1.0),
+                                          )))
 
 data = dict(train=dict(oversample_thr=1e-3))
 # test_cfg = dict(rcnn=dict(max_per_img=800))

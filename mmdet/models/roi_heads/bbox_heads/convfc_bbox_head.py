@@ -244,7 +244,10 @@ class Shared2FCCBBoxHeadBT(ConvFCBBoxHead):
                  fc_out_channels=1024,
                  loss_opl=dict(
                         type='OrthogonalProjectionLoss', loss_weight=1.0),
-                 *args, **kwargs):
+                 loss_bt=dict(
+                     type='BarlowTwinLoss', loss_weight=1.0),
+                 *args,
+                 **kwargs):
         super(Shared2FCCBBoxHeadBT, self).__init__(
             num_shared_convs=0,
             num_shared_fcs=2,
@@ -257,6 +260,7 @@ class Shared2FCCBBoxHeadBT(ConvFCBBoxHead):
             *args,
             **kwargs)
         self.loss_opl = build_loss(loss_opl)
+        self.loss_bt = build_loss(loss_bt)
 
     def forward(self, x):
         assert self.num_shared_fcs > 0
@@ -351,6 +355,7 @@ class Shared2FCCBBoxHeadBT(ConvFCBBoxHead):
 
         if feats is not None:
             losses['loss_opl'] = self.loss_opl(feats, labels)
+            losses['loss_bt'] = self.loss_bt(feats, labels)
         return losses
 
 
